@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./WEB-INF/template.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+
+        <h:form id="formUpdate">
+
+            <h2 style="color: red; text-align: center; border-bottom: solid; border-color: black">#{bundle.VendaLabel}</h2>
+
+
+            <p:panelGrid columns="4" layout="grid" styleClass="showcase-text-align-center">
+
+                <p:outputLabel value="#{bundle.ProdutoLabel_produto}"/>
+                <p:outputLabel value="#{bundle.ProdutoLabel_preco}"/>
+                <p:outputLabel value="#{bundle.ProdutoLabel_quantidade}"/>
+                <p:outputLabel/>
+
+                <p:selectOneMenu value="#{vendaController.produtoSelecionado}" converter="produtoConverter">
+                    <f:selectItems value="#{produtoController.produtos}" var="item" itemLabel="#{item.nome}"/>
+                    <p:ajax event="change" update="preco" />
+                </p:selectOneMenu>
+
+                <p:outputLabel id="preco" value="#{vendaController.produtoSelecionado.preco}"/>
+                <p:inputNumber value="#{vendaController.quantidadeCompra}"/>
+                <p:commandButton action="#{vendaController.adicionar}" value="#{bundle.BotaoVenda_Adicionar}" update="growl formUpdate "/>
+
+            </p:panelGrid>
+
+            <br/>
+
+            <h2 style="color: red; text-align: justify">#{bundle.ItensVenda}</h2>
+
+
+            <p:dataTable id="tabela" var="itens" value="#{vendaController.produtoVendas}"
+                         paginator="false"
+                         reflow="true"
+                         rowKey="#{produtoVendas.produto_id}"
+                         selectionMode="single"
+                         widgetVar="customersTable"
+                         stripedRows="true">
+
+
+                <p:column id="produto" headerText="#{bundle.ProdutoLabel_produto}">
+                    <h:outputLabel value="#{itens.produto_id.nome}"/>
+                </p:column>
+
+                <p:column id="preco" headerText="#{bundle.ProdutoLabel_preco}">
+                    <h:outputLabel value="#{itens.produto_id.preco}"/>
+                </p:column>
+
+                <p:column id="quantidade" headerText="#{bundle.ProdutoLabel_quantidade}">
+                    <h:outputLabel value="#{itens.quantidade}"/>
+                </p:column>
+
+                <p:column id="precoParcial" headerText="#{bundle.ProdutoLabel_precoParcial}">
+                    <h:outputLabel value="#{itens.subtotal}"/>
+                </p:column>
+
+                <f:facet name="footer">
+                    <span class="font-bold">Preço Total: #{vendaController.calcularTotal()}</span>
+                </f:facet>
+
+            </p:dataTable>
+
+            <br/>
+
+            <p:commandButton value="#{bundle.BotaoVenda_Pagamento}" action="#{vendaController.pagamento}" update="growl formUpdate"/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

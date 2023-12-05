@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+
+        <h:form id="formUpdate">
+
+            <h2 style="color: red; font-weight: bold; text-align: center; border-bottom: solid; border-bottom-color: black">#{bundle.TextoGerente_Grafico}</h2>
+
+            <p:barChart model="#{graficoController.barModel}" style="width: 100%; height: 300px;"/>
+            
+        </h:form>
+
+    </ui:define>
+</ui:composition>
